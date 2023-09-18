@@ -1,36 +1,33 @@
-import { useState } from 'react';
+import Analysis from "./pages/Analysis";
+import Home from "./pages/Home";
+import { MuiThemeProvider, createTheme } from "@material-ui/core/styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: "#ffff00",
+    },
+    // secondary: "#ffff00",
+  },
+});
 
 function App() {
-
-  async function submitPrompt (){
-    // const prompt = form.prompt.value;
-    // const response = await fetch(`http://localhost:3000/generate/`, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ prompt }),
-    // });
-    axios.post('http://localhost:3000/generate/',{
-      prompt: 'what is blood group'
-    })
-    .then((Response) => {
-      console.log(Response)
-    }, (err) => console.log(err))
-    
-  }
-
   return (
-    <div className="App">
-      <h1>OpenAI API Demo</h1>
-        <form id="promptForm">
-            <label for="prompt">Enter a prompt:</label>
-            <input type="text" id="prompt" name="prompt" required />
-            <button type="submit" onClick={()=>{submitPrompt()}}>Generate Text</button>
-        </form>
-      <div id="output"></div>    
-    </div>
-  )
+    <MuiThemeProvider theme={theme}>
+      <div>
+        <Router>
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/analysis" element={<Analysis />} />
+          </Routes>
+          <ToastContainer />
+        </Router>
+      </div>
+    </MuiThemeProvider>
+  );
 }
 
-export default App
+export default App;
